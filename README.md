@@ -2,27 +2,26 @@
 
 This repository accompanies the thesis *“Transformers for Tabular Data: A Training Perspective of Self-Attention via Optimal Transport”* (University of Milano-Bicocca, A.Y. 2024/2025).  
 
-The work investigates the training dynamics of **self-attention** through the lens of **Optimal Transport (OT)** and introduces an OT-based alternative model. The thesis combines theoretical insights, simulation studies, and an application to real data.
+The work investigates the training dynamics of **self-attention** through the lens of **Optimal Transport (OT)** and introduces an OT-based model. The project combines theoretical analysis, simulation studies, and visual diagnostics.
 
 ---
 
 ## 📂 Repository Contents
 - **Tesi.pdf** – Full thesis document.  
-- **functions Transformer.R** – Functions to implement and train Transformer models, including prediction and visualization.  
-- **functions OT model.R** – Functions for the Optimal Transport–based model, with prediction and plotting utilities.  
-- **simulation.R** – Experimental setups for reproducing the simulation studies described in the thesis.  
+- **functions Transformer.R** – Core Transformer functions (building, training, projecting).  
+- **functions OT model.R** – Functions for OT-based model training, matching, and prediction.  
+- **simulation.R** – End-to-end simulation study setup.  
 
 ---
 
 ## ⚙️ Requirements
-- **R ≥ 4.2**  
-- Suggested packages:  
-  - `torch`  
-  - `ggplot2`  
-  - `dplyr`  
-  - `transport` (for Optimal Transport computations)  
-
-Install missing packages in R with:
-```r
-install.packages(c("ggplot2", "dplyr"))
-# torch and transport may require specific installation steps
+- **R ≥ 4.2**
+- Required libraries:  
+  ```r
+  library(tensorflow)
+  library(keras3)
+  library(readr)
+  library(dplyr)
+  library(mvtnorm)
+  library(transport)
+  library(expm)
