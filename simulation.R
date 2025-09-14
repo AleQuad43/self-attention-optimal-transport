@@ -50,7 +50,8 @@ Transformer_simulation <- function(
   create_results_df <- function(n_classes, repetitions) {
     base_cols <- list(
       gauss_dist = numeric(repetitions),
-      Accuracy = numeric(repetitions),
+      Accuracy_pw = numeric(repetitions),
+      Accuracy_iw = numeric(repetitions),
       Computational_Time = numeric(repetitions),
       Matching = numeric(repetitions),
       Wass_Distance = numeric(repetitions),
@@ -164,7 +165,7 @@ Transformer_simulation <- function(
     }
     
     results$Computational_Time[i] <- fit$time
-    results$Accuracy[i] <- fit$history$metrics$val_MLP_layer_sm_accuracy[fit$best_epoch]
+    results$Accuracy_pw[i] <- fit$history$metrics$val_MLP_layer_sm_accuracy[fit$best_epoch]
     
     # Recall
     preds <- fit$model %>% predict(x_test_s)
@@ -173,7 +174,8 @@ Transformer_simulation <- function(
     
     cm <- table(y_test, pred_labels)
     recalls <- diag(cm) / rowSums(cm)
-    
+    results$Accuracy_iw[i] <- sum(diag(cm))/sum(cm)
+
     results[i, paste0("Recall_class_", 0:(length(recalls)-1))] <- recalls
     
     results$best_epoch[i] <- fit$best_epoch
@@ -364,10 +366,10 @@ OT_model_simulation_new <- function(
   create_results_df <- function(n_classes, repetitions) {
     base_cols <- list(
       gauss_dist = numeric(repetitions),
-      Accuracy = numeric(repetitions),
+      Accuracy_pw = numeric(repetitions),
       Computational_Time = numeric(repetitions),
       best_epoch = numeric(repetitions),
-      Accuracy_cw = numeric(repetitions)
+      Accuracy_iw = numeric(repetitions)
     )
     
     recall_cols <- setNames(
@@ -422,7 +424,7 @@ OT_model_simulation_new <- function(
     
     results$Computational_Time[i] <- time[3]
     
-    results$Accuracy[i] <- fit$accuracy
+    results$Accuracy_pw[i] <- fit$accuracy
     results$best_epoch[i] <- fit$best_epoch
     
 
@@ -433,7 +435,7 @@ OT_model_simulation_new <- function(
     
     cm <- table(y_test, pred_labels)
     recalls <- diag(cm) / rowSums(cm)
-    results$Accuracy_cw[i] <- sum(diag(cm))/sum(cm)
+    results$Accuracy_iw[i] <- sum(diag(cm))/sum(cm)
     results[i, paste0("Recall_class_", 0:(length(recalls)-1))] <- recalls
     
     results$best_epoch[i] <- fit$best_epoch
